@@ -12,10 +12,10 @@ def run_command(command, working_directory=None):
         sys.exit(result.returncode)
     return result.stdout.decode('utf-8')
 
-def build_project(project_path, baseUrl):
+def build_project(baseUrl):
     """Build the .NET project."""
     print("Building the project...")
-    command = f'dotnet build {project_path} /p:BaseUrl={baseUrl}'
+    command = f'dotnet build /p:BaseUrl={baseUrl}'
     run_command(command)
     print("Build completed successfully.")
 
@@ -28,12 +28,11 @@ def run_tests(test_project_path):
 
 if __name__ == "__main__":
     # Get parameters from environment variables
-    project_path = os.getenv('PROJECT_PATH', './')
     test_project_path = os.getenv('TEST_PROJECT_PATH', './Tests')
     baseUrl = os.getenv('BaseUrl', 'DefaultBaseUrl')
 
     try:
-        build_project(project_path, baseUrl)
+        build_project(baseUrl)
         run_tests(test_project_path)
     except Exception as e:
         print(f"Error: {e}")
